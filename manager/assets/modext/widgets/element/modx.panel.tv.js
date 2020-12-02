@@ -9,7 +9,6 @@
 MODx.panel.TV = function(config) {
     config = config || {};
     config.record = config.record || {};
-    config = MODx.setStaticElementsConfig(config, 'tv');
     Ext.applyIf(config,{
         url: MODx.config.connector_url
         ,baseParams: {
@@ -81,15 +80,7 @@ MODx.panel.TV = function(config) {
                         ,value: config.record.name
                         ,listeners: {
                             'keyup': {scope:this,fn:function(f,e) {
-                                var title = Ext.util.Format.stripTags(f.getValue());
-                                title = _('tv')+': '+Ext.util.Format.htmlEncode(title);
-                                if (MODx.request.a !== 'element/tv/create' && MODx.perm.tree_show_element_ids === 1) {
-                                    title = title+ ' <small>('+this.config.record.id+')</small>';
-                                }
-
-                                Ext.getCmp('modx-tv-header').getEl().update(title);
-
-                                MODx.setStaticElementPath('tv');
+                                Ext.getCmp('modx-tv-header').getEl().update(_('tv')+': '+Ext.util.Format.htmlEncode(f.getValue()));
                             }}
                         }
                     },{
@@ -160,16 +151,6 @@ MODx.panel.TV = function(config) {
                         ,id: 'modx-tv-category'
                         ,anchor: '100%'
                         ,value: config.record.category || 0
-                        ,listeners: {
-                            'afterrender': {scope:this,fn:function(f,e) {
-                                setTimeout(function(){
-                                    MODx.setStaticElementPath('tv');
-                                }, 200);
-                            }}
-                            ,'change': {scope:this,fn:function(f,e) {
-                                MODx.setStaticElementPath('tv');
-                            }}
-                        }
                     },{
                         xtype: MODx.expandHelp ? 'label' : 'hidden'
                         ,forId: 'modx-tv-category'

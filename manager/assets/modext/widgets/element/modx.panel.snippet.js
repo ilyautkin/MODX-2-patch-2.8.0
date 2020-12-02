@@ -7,7 +7,6 @@
 MODx.panel.Snippet = function(config) {
     config = config || {};
     config.record = config.record || {};
-    config = MODx.setStaticElementsConfig(config, 'snippet');
 
     Ext.applyIf(config,{
         url: MODx.config.connector_url
@@ -75,15 +74,7 @@ MODx.panel.Snippet = function(config) {
                         ,value: config.record.name
                         ,listeners: {
                             'keyup': {scope:this,fn:function(f,e) {
-                                var title = Ext.util.Format.stripTags(f.getValue());
-                                title = _('snippet')+': '+Ext.util.Format.htmlEncode(title);
-                                if (MODx.request.a !== 'element/snippet/create' && MODx.perm.tree_show_element_ids === 1) {
-                                    title = title+ ' <small>('+this.config.record.id+')</small>';
-                                }
-
-                                Ext.getCmp('modx-snippet-header').getEl().update(title);
-
-                                MODx.setStaticElementPath('snippet');
+                                Ext.getCmp('modx-snippet-header').getEl().update(_('snippet')+': '+Ext.util.Format.htmlEncode(f.getValue()));
                             }}
                         }
                     },{
@@ -154,16 +145,6 @@ MODx.panel.Snippet = function(config) {
                         ,id: 'modx-snippet-category'
                         ,anchor: '100%'
                         ,value: config.record.category || 0
-                        ,listeners: {
-                            'afterrender': {scope:this,fn:function(f,e) {
-                                setTimeout(function(){
-                                    MODx.setStaticElementPath('snippet');
-                                }, 200);
-                            }}
-                            ,'change': {scope:this,fn:function(f,e) {
-                                MODx.setStaticElementPath('snippet');
-                            }}
-                        }
                     },{
                         xtype: MODx.expandHelp ? 'label' : 'hidden'
                         ,forId: 'modx-snippet-category'

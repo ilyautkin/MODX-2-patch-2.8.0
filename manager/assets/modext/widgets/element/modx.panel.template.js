@@ -9,7 +9,6 @@
 MODx.panel.Template = function(config) {
     config = config || {record:{}};
     config.record = config.record || {};
-    config = MODx.setStaticElementsConfig(config, 'template');
 
     Ext.applyIf(config,{
         url: MODx.config.connector_url
@@ -76,15 +75,7 @@ MODx.panel.Template = function(config) {
                         ,value: config.record.templatename
                         ,listeners: {
                             'keyup': {scope:this,fn:function(f,e) {
-                                var title = Ext.util.Format.stripTags(f.getValue());
-                                title = _('template')+': '+Ext.util.Format.htmlEncode(title);
-                                if (MODx.request.a !== 'element/template/create' && MODx.perm.tree_show_element_ids === 1) {
-                                    title = title+ ' <small>('+this.config.record.id+')</small>';
-                                }
-
-                                Ext.getCmp('modx-template-header').getEl().update(title);
-
-                                MODx.setStaticElementPath('template');
+                                Ext.getCmp('modx-template-header').getEl().update(_('template')+': '+Ext.util.Format.htmlEncode(f.getValue()));
                             }}
                         }
                     },{
@@ -169,16 +160,6 @@ MODx.panel.Template = function(config) {
                         ,id: 'modx-template-category'
                         ,anchor: '100%'
                         ,value: config.record.category || 0
-                        ,listeners: {
-                            'afterrender': {scope:this,fn:function(f,e) {
-                                setTimeout(function(){
-                                    MODx.setStaticElementPath('template');
-                                }, 200);
-                            }}
-                            ,'change': {scope:this,fn:function(f,e) {
-                                MODx.setStaticElementPath('template');
-                            }}
-                        }
                     },{
                         xtype: MODx.expandHelp ? 'label' : 'hidden'
                         ,forId: 'modx-template-category'

@@ -107,7 +107,7 @@ class ResourceDataManagerController extends ResourceManagerController {
      * @return string
      */
     public function getPreviewUrl() {
-        $this->previewUrl = $this->resource->getPreviewUrl();
+        $this->previewUrl = $this->modx->makeUrl($this->resource->get('id'),$this->resource->get('context_key'));
         return $this->previewUrl;
     }
 
